@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora PSA para CS2 - Encuentra Tu Sensibilidad Perfecta</title>
+    <meta name="description" content="Calculadora PSA avanzada para CS2. Encuentra tu sensibilidad perfecta con precisión científica. Incluye configuraciones de profesionales actualizadas.">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                        <line x1="12" y1="2" x2="12" y2="6"/>
+                        <line x1="12" y1="18" x2="12" y2="22"/>
+                        <line x1="2" y1="12" x2="6" y2="12"/>
+                        <line x1="18" y1="12" x2="22" y2="12"/>
+                    </svg>
+                    CS2 PSA Calculator
+                </h1>
+                <div class="stats-mini">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <span id="visitorCount">0</span> visitas
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="intro-section">
+                <h2>Encuentra Tu Sensibilidad Perfecta</h2>
+                <p>Utiliza el método PSA (Perfect Sensitivity Approximation) científico con 7 iteraciones para descubrir la sensibilidad ideal que te ayudará a dominar en CS2.</p>
+            </div>
+
+            <div class="content-grid">
+                <!-- PSA Calculator -->
+                <div class="calculator-section">
+                    <div class="card calculator-card">
+                        <div class="card-header">
+                            <h3>Calculadora PSA Avanzada</h3>
+                            <div class="iteration-badge">
+                                Iteración <span id="currentIteration">0</span> de 7
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressBar"></div>
+                        </div>
+
+                        <!-- Calculator Steps -->
+                        <div id="calculatorSteps">
+                            <!-- Step 0: Initial Setup -->
+                            <div class="step active" id="step0">
+                                <h4>Configuración Inicial</h4>
+                                <p class="step-instruction">Primero, encuentra tu sensibilidad base realizando un giro de 360° con un barrido completo de tu mousepad.</p>
+                                
+                                <div class="instruction-list">
+                                    <div class="instruction-item">
+                                        <span class="instruction-number">1</span>
+                                        <span>Entra a CS2 y encuentra un punto fijo en el suelo</span>
+                                    </div>
+                                    <div class="instruction-item">
+                                        <span class="instruction-number">2</span>
+                                        <span>Ajusta tu sensibilidad hasta que un barrido completo del mousepad = 360°</span>
+                                    </div>
+                                    <div class="instruction-item">
+                                        <span class="instruction-number">3</span>
+                                        <span>Ingresa esa sensibilidad base a continuación</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="baseSensitivity">Sensibilidad Base (360°)</label>
+                                    <input type="number" id="baseSensitivity" step="0.01" min="0.1" max="10" placeholder="Ej: 2.5">
+                                </div>
+
+                                <div class="input-group">
+                                    <label for="mouseDPI">DPI del Mouse</label>
+                                    <input type="number" id="mouseDPI" step="100" min="100" max="16000" placeholder="Ej: 800">
+                                </div>
+
+                                <button class="btn btn-primary" onclick="startPSA()">
+                                    Comenzar Cálculo PSA
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="9 18 15 12 9 6"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Iteration Steps (1-7) -->
+                            <div class="step" id="stepIteration" style="display: none;">
+                                <h4 id="iterationTitle">Iteración 1</h4>
+                                <p class="step-instruction">Prueba estas tres sensibilidades en el juego y selecciona la que se sienta más cómoda.</p>
+
+                                <div class="sensitivity-options">
+                                    <div class="sensitivity-option" onclick="selectSensitivity('lower')">
+                                        <div class="option-label">Sensibilidad Baja</div>
+                                        <div class="option-value" id="lowerSens">0.00</div>
+                                        <div class="option-edpi">eDPI: <span id="lowerEDPI">0</span></div>
+                                    </div>
+
+                                    <div class="sensitivity-option highlight" onclick="selectSensitivity('base')">
+                                        <div class="option-label">Sensibilidad Base</div>
+                                        <div class="option-value" id="baseSens">0.00</div>
+                                        <div class="option-edpi">eDPI: <span id="baseEDPI">0</span></div>
+                                        <div class="recommended-badge">Recomendada</div>
+                                    </div>
+
+                                    <div class="sensitivity-option" onclick="selectSensitivity('higher')">
+                                        <div class="option-label">Sensibilidad Alta</div>
+                                        <div class="option-value" id="higherSens">0.00</div>
+                                        <div class="option-edpi">eDPI: <span id="higherEDPI">0</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="testing-tips">
+                                    <h5>Consejos para Probar:</h5>
+                                    <ul>
+                                        <li>Prueba en objetivos a larga distancia (Long A en Dust 2)</li>
+                                        <li>Prueba en distancia media (Mid en Mirage)</li>
+                                        <li>Prueba en distancia corta (Apartamentos en Inferno)</li>
+                                        <li>Realiza spray patterns y flicks con cada sensibilidad</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Final Result -->
+                            <div class="step" id="stepResult" style="display: none;">
+                                <div class="result-celebration">
+                                    <svg class="result-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                        <polyline points="22 4 12 14.01 9 11.01"/>
+                                    </svg>
+                                    <h4>¡Sensibilidad Perfecta Encontrada!</h4>
+                                </div>
+
+                                <div class="final-results">
+                                    <div class="result-item">
+                                        <span class="result-label">Sensibilidad Final</span>
+                                        <span class="result-value" id="finalSensitivity">0.00</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">DPI</span>
+                                        <span class="result-value" id="finalDPI">0</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">eDPI</span>
+                                        <span class="result-value" id="finalEDPI">0</span>
+                                    </div>
+                                    <div class="result-item">
+                                        <span class="result-label">cm/360°</span>
+                                        <span class="result-value" id="finalCm360">0</span>
+                                    </div>
+                                </div>
+
+                                <div class="recommendations">
+                                    <h5>Recomendaciones Post-Cálculo:</h5>
+                                    <ul>
+                                        <li>Mantén esta sensibilidad durante al menos 2-3 semanas</li>
+                                        <li>Practica con aim trainers (Aim Lab, KovaaK's)</li>
+                                        <li>Evita cambiar la sensibilidad frecuentemente</li>
+                                        <li>Ajusta tu crosshair para complementar tu nueva sensibilidad</li>
+                                    </ul>
+                                </div>
+
+                                <div class="result-actions">
+                                    <button class="btn btn-primary" onclick="copyToClipboard()">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                        Copiar Configuración
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="resetCalculator()">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="23 4 23 10 17 10"/>
+                                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                                        </svg>
+                                        Calcular de Nuevo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Card -->
+                    <div class="card stats-card">
+                        <h3>Estadísticas del Sitio</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="totalVisits">0</div>
+                                    <div class="stat-label">Visitas Totales</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="totalCalculations">0</div>
+                                    <div class="stat-label">Cálculos Completados</div>
+                                </div>
+                            </div>
+
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-value" id="totalComments">0</div>
+                                    <div class="stat-label">Comentarios</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar-section">
+                    <!-- Pro Configs -->
+                    <div class="card pro-configs-card">
+                        <div class="card-header">
+                            <h3>Configs Profesionales</h3>
+                            <div class="pro-filter">
+                                <select id="teamFilter" onchange="filterProPlayers()">
+                                    <option value="all">Todos los Equipos</option>
+                                    <option value="Vitality">Vitality</option>
+                                    <option value="Team Spirit">Team Spirit</option>
+                                    <option value="MOUZ">MOUZ</option>
+                                    <option value="NaVi">NaVi</option>
+                                    <option value="FaZe">FaZe Clan</option>
+                                    <option value="G2">G2 Esports</option>
+                                    <option value="Falcons">Falcons</option>
+                                    <option value="The MongolZ">The MongolZ</option>
+                                    <option value="FURIA">FURIA</option>
+                                    <option value="Liquid">Team Liquid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="proPlayersList" class="pro-players-list">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Info -->
+                    <div class="card info-card">
+                        <h3>¿Qué es el Método PSA?</h3>
+                        <p>El método PSA (Perfect Sensitivity Approximation) es un proceso científico iterativo usado por profesionales de esports para encontrar la sensibilidad óptima del mouse.</p>
+                        <ul>
+                            <li>7 iteraciones de refinamiento</li>
+                            <li>Basado en pruebas comparativas</li>
+                            <li>Mejora la consistencia del aim</li>
+                            <li>Usado por jugadores profesionales</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <div class="card">
+                    <h3>Comentarios de la Comunidad</h3>
+                    
+                    <div class="comment-form">
+                        <h4>Deja tu comentario</h4>
+                        <input type="text" id="commentName" placeholder="Tu nombre" maxlength="50">
+                        <textarea id="commentText" placeholder="Comparte tu experiencia con el método PSA..." rows="4" maxlength="500"></textarea>
+                        <button class="btn btn-primary" onclick="addComment()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                            Publicar Comentario
+                        </button>
+                    </div>
+
+                    <div id="commentsList" class="comments-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CS2 PSA Calculator. Desarrollado por MiniMax Agent. Todos los derechos reservados.</p>
+            <p class="footer-note">No afiliado con Valve Corporation. CS2 y Counter-Strike son marcas registradas de Valve Corporation.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Scripts -->
+    <!-- Firebase Configuration -->
+    <script src="firebase-config.js"></script>
+    <script src="firebase-functions.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="pros-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

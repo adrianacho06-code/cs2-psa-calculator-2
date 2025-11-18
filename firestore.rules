@@ -1,0 +1,50 @@
+// Firestore Security Rules for CS2 PSA Calculator
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Allow read access to all data
+    match /{document=**} {
+      allow read: if true;
+    }
+    
+    // Allow write access to visitor statistics
+    match /visitor-stats/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null || true; // Allow anonymous writes for visitor counter
+    }
+    
+    // Allow write access to calculation statistics
+    match /calculation-stats/{doc} {
+      allow read: if true;
+      allow write: if request.auth != null || true; // Allow anonymous writes
+    }
+    
+    // Allow write access to comments
+    match /user-comments/{commentId} {
+      allow read: if true;
+      
+      // Allow anonymous comment submission with validation
+      allow create: if 
+        request.resource.data.name is string &&
+        request.resource.data.name.size() <= 50 &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.comment is string &&
+        request.resource.data.comment.size() <= 500 &&
+        request.resource.data.comment.size() > 0 &&
+        request.resource.data.timestamp == request.time;
+      
+      // Allow updates only to timestamp for rate limiting
+      allow update: if 
+        request.resource.data.diff(resource.data).changedKeys().hasOnly(['timestamp']);
+        
+      // Prevent deletions to maintain comment history
+      allow delete: if false;
+    }
+    
+    // Prevent any other writes
+    match /{document=**} {
+      allow write: if false;
+    }
+  }
+}
